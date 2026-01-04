@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>BorrowBox Multi Search</title>
+  <title>BorrowBox + Libby Multi Search</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -10,16 +10,14 @@
       font-family: system-ui, sans-serif;
       margin: 0;
       padding: 1.5rem;
-      background: #fafafa;
-      color: #333;
+      background: #f7f7f7;
       max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      margin-inline: auto;
     }
 
     h1 {
-      font-size: 1.8rem;
       text-align: center;
+      font-size: 1.8rem;
       margin-bottom: 1.5rem;
     }
 
@@ -31,24 +29,19 @@
 
     input {
       flex: 1;
-      padding: 0.8rem;
+      padding: 0.9rem;
       font-size: 1.1rem;
-      border: 1px solid #ccc;
       border-radius: 8px;
+      border: 1px solid #ccc;
     }
 
     button {
-      padding: 0.8rem 1.2rem;
+      padding: 0.9rem 1.2rem;
       font-size: 1.1rem;
       border: none;
+      border-radius: 8px;
       background: #0078d4;
       color: white;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    button:active {
-      background: #005fa3;
     }
 
     .results a {
@@ -62,16 +55,12 @@
       font-size: 1.2rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     }
-
-    .results a:active {
-      background: #f0f0f0;
-    }
   </style>
 </head>
 
 <body>
 
-  <h1>BorrowBox Multi Search</h1>
+  <h1>Library Multi Search</h1>
 
   <div class="search-bar">
     <input id="q" placeholder="Search audiobooks">
@@ -83,18 +72,28 @@
   <script>
     function go() {
       const term = encodeURIComponent(document.getElementById('q').value);
+
       const libs = {
-        "East Riding": "https://eastriding.borrowbox.com/search?format=eAudiobooks&q=",
-        "Leeds": "https://leeds.borrowbox.com/search?format=eAudiobooks&q=",
-        "North Yorkshire": "https://northyorkshire.borrowbox.com/search?format=eAudiobooks&q="
+        "East Riding (BorrowBox)": "https://eastriding.borrowbox.com/search?format=eAudiobooks&q=",
+        "Leeds (BorrowBox)": "https://leeds.borrowbox.com/search?format=eAudiobooks&q=",
+        "North Yorkshire (BorrowBox)": "https://northyorkshire.borrowbox.com/search?format=eAudiobooks&q=",
+        "Libby (East Riding)": "https://libbyapp.com/search/eastridinguk/search/query-"  // Libby format below
       };
 
       const container = document.getElementById('results');
       container.innerHTML = "";
 
       Object.entries(libs).forEach(([name, base]) => {
-        const url = base + term;
-        container.innerHTML += `<a href="${url}" target="_blank">Search ${name}</a>`;
+        let url;
+
+        if (name.includes("Libby")) {
+          // Libby uses: /query-SEARCHTERM/page-1
+          url = base + term + "/page-1";
+        } else {
+          url = base + term;
+        }
+
+        container.innerHTML += `<a href="${url}" target="_blank">${name}</a>`;
       });
     }
   </script>
