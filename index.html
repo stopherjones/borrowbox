@@ -1,0 +1,20 @@
+<input id="q" placeholder="Search audiobooks">
+<button onclick="go()">Search</button>
+
+<div style="display:flex; gap:1rem;">
+  <iframe id="east" width="33%" height="800"></iframe>
+  <iframe id="leeds" width="33%" height="800"></iframe>
+  <iframe id="nyorks" width="33%" height="800"></iframe>
+</div>
+
+<script>
+function go() {
+  const term = encodeURIComponent(document.getElementById('q').value);
+  document.getElementById('east').src =
+    "https://eastriding.borrowbox.com/search?format=eAudiobooks&q=" + term;
+  document.getElementById('leeds').src =
+    "https://leeds.borrowbox.com/search?format=eAudiobooks&q=" + term;
+  document.getElementById('nyorks').src =
+    "https://northyorkshire.borrowbox.com/search?format=eAudiobooks&q=" + term;
+}
+</script>
